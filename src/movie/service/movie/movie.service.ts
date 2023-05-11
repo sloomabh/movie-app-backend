@@ -4,7 +4,6 @@ import { from, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 import { Movie } from 'src/typeorm/entities/Movie';
 import { MovieI } from 'src/movie/model/movie.interface';
-import { switchMap } from 'rxjs/operators';
 import { CreateMovieDto } from 'src/movie/model/dto/CreateMovie.dto';
 
 @Injectable()

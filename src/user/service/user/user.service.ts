@@ -16,7 +16,6 @@ import { AuthService } from 'src/auth/services/auth/auth.service';
 import { sign } from 'jsonwebtoken';
 import { ForgotPasswordDto } from 'src/user/models/dto/ForgotPasswordDto';
 import * as nodemailer from 'nodemailer';
-import * as jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
 @Injectable()
@@ -51,6 +50,7 @@ export class UserService {
       }),
     );
   }
+
   login(loginUserDto: LoginUserDto): Observable<string> {
     return this.findUserByEmail(loginUserDto.email.toLowerCase()).pipe(
       switchMap((user: UserI) => {
@@ -80,6 +80,7 @@ export class UserService {
       }),
     );
   }
+
   findOne(id: number): Observable<UserI> {
     return from(this.userRepository.findOne({ id }));
   }
@@ -126,7 +127,7 @@ export class UserService {
   generateToken(user: UserI): string {
     const payload = { id: user.id, email: user.email };
     const secret = 'JWT_SECRET'; // Replace with your own secret key
-    const options = { expiresIn: '1h' }; // Set the token expiration time as needed
+    const options = { expiresIn: 'JWT_EXPIRATION_TIME' }; // Set the token expiration time as needed
 
     return sign(payload, secret, options);
   }
@@ -181,7 +182,6 @@ export class UserService {
       console.log('Email sent:', info.response);
     });
   }
-  //
 
   async resetPassword(token: string, newPassword: string): Promise<void> {
     const user = await this.validateToken(token);
@@ -189,9 +189,11 @@ export class UserService {
       throw new NotFoundException('Invalid or expired token');
     }
 
-    const hashedPassword = await this.authService
-      .hashPassword(newPassword)
-      .toPromise();
+    const hashedPasswordObs = await this.authService.hashPassword(newPassword);
+    let hashedPassword: string;
+    hashedPasswordObs.subscribe((result) => {
+      hashedPassword = result;
+    });
     user.password = hashedPassword;
     await this.userRepository.save(user);
   }
@@ -209,77 +211,4 @@ export class UserService {
       return null;
     }
   }
-  //
 }
-//
-/*
-  getUserByToken(token: string): Observable<UserI> {
-    const decodedToken: any = jwt.verify(token, 'JWT_SECRET');
-    const userId = decodedToken.id;
-    const user = this.userRepository.findOne(userId);
-    return from(user);
-  }
-  /////
-  resetPassword(token: string, newPassword: string): Observable<UserI> {
-    const user$ = this.getUserByToken(token);
-
-    return user$.pipe(
-      switchMap((user: UserI) => {
-        if (!user) {
-          throw new NotFoundException('User not found');
-        }
-
-        const passwordHash = this.authService.hashPassword(newPassword);
-
-        return passwordHash.pipe(
-          map((hash: string) => {
-            user.password = hash;
-            return user;
-          }),
-          switchMap((updatedUser: UserI) =>
-            from(this.userRepository.save(updatedUser)).pipe(
-              switchMap(() => this.userRepository.findOne(updatedUser.id)),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-  //
-
-  //
-  sendResetPasswordSuccessEmail(email: string): void {
-    dotenv.config();
-    // Create a Nodemailer transporter with your mail configuration
-    const transporter = nodemailer.createTransport({
-      // Specify your mail service provider, host, port, etc.
-      // For example, using Gmail SMTP:
-      host: process.env.MAIL_HOST,
-      port: Number(process.env.MAIL_PORT),
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
-    // Compose the email message
-    const mailOptions = {
-      from: 'inboubd-platforme@gmail.com',
-      to: email,
-      subject: 'Reset Password Success',
-      text: 'Your password has been successfully reset.',
-    };
-
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        throw new HttpException(
-          'Failed to send email',
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
-      console.log('Email sent:', info.response);
-    });
-  }
-  //
-  */

@@ -18,6 +18,7 @@ import { ForgotPasswordDto } from 'src/user/models/dto/ForgotPasswordDto';
 import { UserI } from 'src/user/models/user.interface';
 import { UserService } from 'src/user/service/user/user.service';
 import { Response } from 'express';
+import { RoleGuard } from 'src/auth/guards/RoleGuard';
 
 @Controller('users')
 export class UserController {
@@ -42,8 +43,8 @@ export class UserController {
     );
   }
 
-  // Requires Valid JWT from Login Request
-  @UseGuards(JwtAuthGuard)
+  // Requires Valid JWT from Login Request AND THE ROLE SHOULD BE ADMIN
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Get()
   findAll(@Req() request): Observable<UserI[]> {
     console.log(request.user);
@@ -56,8 +57,6 @@ export class UserController {
     @Res() res: Response,
   ): Promise<void> {
     await this.userService.forgotPassword(forgotPasswordDto);
-
-    // Email sent successfully, send the response
     res.status(200).json({ message: 'Email has been sent successfully' });
   }
 
@@ -75,19 +74,3 @@ export class UserController {
     }
   }
 }
-
-/*
-  @Put('resetpassword/:token')
-  @HttpCode(204)
-  async resetPassword(
-    @Param('token') token: string,
-    @Body('password') newPassword: string,
-  ): Promise<UserI> {
-    const user = await firstValueFrom(this.userService.getUserByToken(token));
-    if (user) {
-      await firstValueFrom(this.userService.resetPassword(token, newPassword));
-
-      return user;
-    }
-  }
-  */
