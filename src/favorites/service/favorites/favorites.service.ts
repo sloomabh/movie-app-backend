@@ -48,11 +48,16 @@ export class FavoriteService {
     };
   }
 
-  async removeFavorite(userId: number, movieId: number): Promise<void> {
+  async removeFavorite(userId: number, movieId: number): Promise<Favorite[]> {
     await this.favoriteRepository.delete({
       user: { id: userId },
       movie: { id: movieId },
     });
+    const favorites = await this.favoriteRepository.find({
+      where: { user: { id: userId } },
+      relations: ['movie'],
+    });
+    return favorites;
   }
 
   async getUserFavorites(userId: number): Promise<MovieI[]> {

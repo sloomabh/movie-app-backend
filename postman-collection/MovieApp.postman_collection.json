@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "ebf857f0-c2ab-42e6-8981-ddc707f83d8f",
+		"name": "MovieApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25084704"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register a new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"john\",\r\n  \"email\":\"john@gmail.com\",\r\n  \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "it reqiures name, email and password  \n\nand it will register the user in database and will add automatically a key / value : {\"role\" : \"user\"}"
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"email\": \"sasa@gmail.com\",\r\n  \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"login"
+							]
+						},
+						"description": "it requires email and password and will send back access token "
+					},
+					"response": []
+				},
+				{
+					"name": "apply for a forgotten password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\":\"nana@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/forgotpassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"forgotpassword"
+							]
+						},
+						"description": "it requirs a n existing email and it will send back new token to email under link form so you can rest your password"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset the password ",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"newPassword\":\"aaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4MiwibmFtZSI6Im5hbmEiLCJlbWFpbCI6Im5hbmFAZ21haWwuY29tIiwicm9sZSI6InVzZXIifSwiaWF0IjoxNjgzODE1MzE2LCJleHAiOjE2ODM4MjUzMTZ9.gIDCRTuVCnJw_BsMbT9kN4RTUCkx3qPJoi1uYxsVtvg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"resetpassword",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4MiwibmFtZSI6Im5hbmEiLCJlbWFpbCI6Im5hbmFAZ21haWwuY29tIiwicm9sZSI6InVzZXIifSwiaWF0IjoxNjgzODE1MzE2LCJleHAiOjE2ODM4MjUzMTZ9.gIDCRTuVCnJw_BsMbT9kN4RTUCkx3qPJoi1uYxsVtvg"
+							]
+						},
+						"description": "it requirs only a link that contains the new token and newpassword "
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of users (PROTECTED WITH AUTH  and ADMIN role)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						},
+						"description": "To make this request you need a valid jwt. \r\nYou can get this with the login request"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movie",
+			"item": [
+				{
+					"name": "Get list of movies (PROTECTED WITH AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"movies"
+							]
+						},
+						"description": "To make this request you need a valid jwt. \r\nYou can get this with the login request"
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new movie (PROTECTED WITH AUTH  and ADMIN role)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"The moon\",\r\n    \"director\": \"Ali kara\",\r\n    \"yearReleased\": 1995,\r\n    \"genre\": \"comedy\"\r\n\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"movies"
+							]
+						},
+						"description": "you should be admin to add movie  \nall keys are requires"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete movie (PROTECTED WITH AUTH  and ADMIN role)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/movies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"movies",
+								"1"
+							]
+						},
+						"description": "you shave to be an admin to delete movie"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a movie (PROTECTED WITH AUTH  and ADMIN role)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n \"title\": \"the world\"\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/movies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"movies",
+								"1"
+							]
+						},
+						"description": "you have to be an admine and has token to access this route"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Add movie to favorites(PROTECTED WITH AUTH  )",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favorites/16255482/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favorites",
+								"16255482",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get favorites list (PROTECTED BY AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favorites/16255482",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favorites",
+								"16255482"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete movie from favorites (PROTECTED BY AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNjI1NTQ4NiwibmFtZSI6InNhc2EiLCJlbWFpbCI6InNhc2FAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIn0sImlhdCI6MTY4MzgxNjM5MSwiZXhwIjoxNjgzODI2MzkxfQ._WBD42hX716l6G19E18BGJvC6fKQGzM7tF2TGeDxAqY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favorites/16255482/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favorites",
+								"16255482",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

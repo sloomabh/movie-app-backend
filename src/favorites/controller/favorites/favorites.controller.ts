@@ -27,11 +27,12 @@ export class FavoritesController {
   async removeFavorite(
     @Param('userId') userId: string,
     @Param('movieId') movieId: string,
-  ): Promise<void> {
-    await this.favoriteService.removeFavorite(
+  ): Promise<Favorite[]> {
+    const favorites = await this.favoriteService.removeFavorite(
       parseInt(userId),
       parseInt(movieId),
     );
+    return favorites;
   }
 
   // GET FAVORITES
