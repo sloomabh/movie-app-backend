@@ -1,0 +1,30 @@
+version: '3'
+services:
+  movie-app-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    networks:
+      - movie-app-network
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    env_file:
+     - .mysql.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - movie-app-network
+
+volumes:
+  mysql_data:
+networks:
+  movie-app-network:

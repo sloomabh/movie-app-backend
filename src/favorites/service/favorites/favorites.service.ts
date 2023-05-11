@@ -1,13 +1,11 @@
-import { Injectable, NotFoundException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { Favorite } from 'src/typeorm/entities/Favorites';
 import { User } from 'src/typeorm/entities/User';
 import { Movie } from 'src/typeorm/entities/Movie';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieI } from 'src/movie/model/movie.interface';
-import { UserI } from 'src/user/models/user.interface';
-import { UserService } from 'src/user/service/user/user.service';
-import { MovieService } from 'src/movie/service/movie/movie.service';
+
 
 @Injectable()
 export class FavoriteService {
